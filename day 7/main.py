@@ -1,65 +1,11 @@
+from hangman_word import word_list
 import random
 
-stages = [
-    '''
-  +---+
-  |   |
-  O   |
- /|\  |
- / \  |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
- /|\  |
- /    |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
- /|\  |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
-      |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-      |
-      |
-      |
-      |
-=========
-'''
-]
+from hangman_art import logo
+from hangman_art import stages
+print(logo)
 
-word_list = ["ardvark", "baboon", "camel"]
+
 lives = 6
 randomWord = random.choice(word_list)
 randomWordList = []
@@ -74,16 +20,21 @@ while not end_of_game:
     tracker = 0
     guess = input("Guess a letter: ")
     guess.lower()
+    if guess in randomWordList:
+        print(f"You've already guessed {guess}")
     for index in range(wordLength):
         letter = randomWord[index]
         if letter == guess:
             randomWordList[index] = guess
             tracker = 1
     if tracker == 0:
+        print(f"You guessed {guess}, that's not in the word. You lose a life.")
+
         lives -= 1
         print(stages[lives])
 
-    print(randomWordList)
+    
+    print(f"{' '.join(randomWordList)}")
     if "_" not in randomWordList:
         end_of_game = True
         print("You Win!")
